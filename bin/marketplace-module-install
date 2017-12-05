@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+const yeoman = require("yeoman-environment");
+const env = yeoman.createEnv();
+const program = require("commander");
+const path = require("path");
+const chalk = require("chalk");
+
+program
+  .usage("<module name>")
+  // .option("-o, --output <path>", "set output path. defaults to current directory")
+  // .option("-c, --config <path>", "set config path. defaults to config.example.yml in module directory")
+  .parse(process.argv);
+
+const moduleName = program.args[0];
+
+const generatorPath = path.join(__dirname, "..", "generators", moduleName);
+
+try {
+  env.register(generatorPath, moduleName);
+
+  env.run(moduleName, () => {});
+} catch (e) {
+  console.error(chalk.red(`"${moduleName}" module not found.`));
+  console.log('Use "marketplace-module list" to list all available modules.');
+}

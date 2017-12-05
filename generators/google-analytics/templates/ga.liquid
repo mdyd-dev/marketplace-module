@@ -1,0 +1,15 @@
+{% if platform_context.rails_env == 'production' %}
+  {% assign API_KEY = '<%= PRODUCTION_API_KEY %>' %}
+{% else %}
+  {% assign API_KEY = '<%= STAGING_API_KEY %>' %}
+{% endif %}
+
+{% if API_KEY != blank %}
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', '{{ API_KEY }}', 'auto');
+ga('send', 'pageview');
+</script>
+
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+{% endif %}

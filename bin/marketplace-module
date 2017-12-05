@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+
+var program = require("commander");
+
+// prettier-ignore
+program
+  .description('Marketplace Module Installer')
+  .command("install <name>", "installs module of given name")
+  .command("list", "lists all available modules");
+
+program.parse(process.argv);
