@@ -19,12 +19,13 @@ const table = new Table({
 });
 
 const getModulesPaths = files => {
-  const paths = files[0].files.map(file => file.path);
-
-  return paths.reduce((mods, modPath) => {
-    mods.push(modPath);
-    return mods;
-  }, []);
+  // prettier-ignore
+  return files[0].files
+    .filter(file => file.mode.dir)
+    .reduce((modulesPaths, file) => {
+      modulesPaths.push(file.path);
+      return modulesPaths;
+    }, []);
 };
 
 const listModules = modulesPaths => {
@@ -32,7 +33,7 @@ const listModules = modulesPaths => {
     pathArr = path.split("/");
     return pathArr[pathArr.length - 1];
   });
-  const tableRows = modulesNames.map(r => [r]);
+  const tableRows = modulesNames.map(moduleName => [moduleName]);
 
   table.push(...tableRows);
 
