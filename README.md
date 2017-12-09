@@ -23,7 +23,7 @@ there are a lot of resources in the web to learn that already.
 Every generator has to be places inside `generators` directory under its own unique name. Look inside to see the
 examples.
 
-And remember - this is just javascript.
+And remember - it's just javascript.
 
 ### Yeoman generator life cycles
 
@@ -35,13 +35,11 @@ And remember - this is just javascript.
   possible, you can download it here)
 * Post-install - use this phase to inform user of any post-installation operations that he/she may need to perform to
   finish installation. For example if your module needs to be included in liquid view - tell user about it. Dont
-  hesitate to use `chalk` to emphasise important bits of information.
+  hesitate to use [chalk](https://github.com/chalk/chalk) to emphasise important bits of information.
 
 ### User input
 
-User input is handled by a amazing library called [Inquirer.js](https://github.com/SBoudrias/Inquirer.js/) - it's great
-and its well documented and battle tested... See [short API docs](https://github.com/SBoudrias/Inquirer.js/#question)
-for more info.
+User input is handled by a amazing library called [Inquirer.js](https://github.com/SBoudrias/Inquirer.js/).
 
 ```javascript
 prompting() {
@@ -124,7 +122,7 @@ writing() {
 Just like in copy method you can copy contents of the template directory, passing props from writing phase.
 
 ```javascript
-this.fs.copyTpl(this.templatePath("**/*"), this.destinationRoot(), this.props);
+this.fs.copyTpl(this.templatePath("."), this.destinationRoot(), this.props);
 ```
 
 ### Resources
