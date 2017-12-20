@@ -13,6 +13,4 @@ marketplace_builder/custom_themes/default_custom_theme_assets/*.css
 tmp/
 .vscode
 npm-debug.log
-selenium-debug.log
-test/e2e/reports
-test/e2e/screenshots
+

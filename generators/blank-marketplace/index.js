@@ -52,7 +52,7 @@ module.exports = class extends Generator {
 
 
     this.fs.copyTpl(
-      this.templatePath(".builder"),
+      this.templatePath("files/marketplace_builder/.builder"),
       this.destinationPath(projectDir + "/marketplace_builder/.builder" ),
       {
         PRODUCTION_URL: this.props.production,
