@@ -23,4 +23,6 @@ try {
 } catch (e) {
   console.error(chalk.red(`"${moduleName}" module not found.`));
   console.log('Use "marketplace-module list" to list all available modules.');
+  console.error("Error: ");
+  console.error(e);
 }

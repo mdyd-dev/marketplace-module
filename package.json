@@ -1,6 +1,6 @@
 {
   "name": "@marketplace-platform/marketplace-module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Marketplace Module Installer",
   "repository": "mdyd-dev/marketplace-module",
   "bin": {
