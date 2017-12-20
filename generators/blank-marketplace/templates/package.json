@@ -6,7 +6,7 @@
     "build_dir": "marketplace_builder/custom_themes/default_custom_theme_assets"
   },
   "scripts": {
-    "check-node-version": "check-node-version --node ^9.0.0 --npm ^5.5",
+    "check-node-version": "check-node-version --node ^8.9 --npm ^5.5",
     "postinstall": "npm run check-node-version",
     "lint": "lint-staged",
     "lint:fix": "prettier-eslint --write --eslint-config-path .eslintrc.json",
