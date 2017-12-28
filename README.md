@@ -17,10 +17,10 @@
 ## How to write a module
 
 Module is just [yeoman](https://github.com/yeoman/yo) generator. It was heavily inspired by rails scaffolding, so think
-of it that way. So basically what you are learning is how to write yeoman generators, which is a good thing, because
+of it that way. What you are learning is how to write yeoman generators, which is a good thing, because
 there are a lot of resources in the web to learn that already.
 
-Every generator has to be places inside `generators` directory under its own unique name. Look inside to see the
+Every generator has to be placed inside `generators` directory under its own unique name. Look inside to see the
 examples.
 
 And remember - it's just javascript.
