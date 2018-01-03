@@ -1,0 +1,21 @@
+query get_blog_posts($page: Int, $per_page: Int, $tags: String, $slug: String, $published_at_gt: String, $published_at_lt: String ) {
+  blog_posts: blog_posts(page: $page, per_page: $per_page, tags: $tags, slug: $slug, published_at: { lt: $published_at_lt, gt: $published_at_gt } ) {
+    results {
+      author_name
+      author_avatar_url(version:"medium")
+      content
+      excerpt
+      id
+      post_path
+      published_at
+      title
+      slug
+    }
+    current_page
+    has_next_page
+    has_previous_page
+    per_page
+    total_entries
+    total_pages
+  }
+}
