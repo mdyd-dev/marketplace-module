@@ -1,0 +1,38 @@
+---
+slug: '<%= BLOG_SCOPE %>'
+format: html
+layout_name: '<%= LAYOUT_NAME %>'
+---
+{% assign page = params.page | default: 1 | plus: 0 %}
+{% assign per_page = params.per_page  | default: 10 | plus: 0 %}
+
+{%- query_graph 'get_blog_posts', result_name: g, page: page , per_page: per_page -%}
+
+Showing: {{ per_page}} of {{ g.blog_posts.total_entries }}
+
+Blog posts:
+<ul>
+  {% for blog_post in  g.blog_posts.results %}
+    {%- if blog_post.author_avatar_url }} -%}
+      <li>
+          <img src='{{ blog_post.author_avatar_url }}' />
+      </li>
+    {%- endif -%}
+    <li>
+      <a href="<%= BLOG_SCOPE %>/post/{{ blog_post.slug }}">{{ blog_post.title }}</a>
+    </li>
+    <li>
+      {{ blog_post.content | truncate: 200 }}
+    </li>
+    <li>
+      Author: {{ blog_post.author_name }}
+    </li>
+    <li style='border-bottom: 1px solid black; padding-bottom: 10px;'>
+      Published At: {{ blog_post.published_at  | localize: 'day_and_month' }}
+    </li>
+  {% endfor %}
+</ul>
+
+{% for page in  (1..g.blog_posts.total_pages) %}
+  <a href="{{ current_path }}?page={{ page }}">{{ page }}</a>
+{% endfor %}

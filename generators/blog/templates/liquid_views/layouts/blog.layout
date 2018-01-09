@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta content="{{ form_authenticity_token }}" name="csrf-token">
+  <meta content="authenticity_token" name="csrf-param">
+</head>
+
+<body class="{% if is_logged_in %}logged-in{% endif %}">
+  {{ content_for_layout }}
+</body>
+</html>

@@ -1,0 +1,73 @@
+---
+slug: '<%= BLOG_SCOPE %>/post'
+format: html
+layout_name: '<%= LAYOUT_NAME %>'
+---
+
+{%- query_graph 'get_blog_posts', result_name: g, slug: params.slug3 -%}
+{% assign blog_post = g.blog_posts.results.first %}
+
+{% content_for title %}
+  {{ blog_post.title }}
+{% endcontent_for %}
+
+<div class='blog-post-detail'>
+  <h1>{{ blog_post.title }}</h1>
+
+  {% include 'blog/social_buttons' %}
+
+  <div class='content'>
+    {%- if blog_post.tags -%}
+      <p> Tagged as: {{ blog_post.tags | join: ", " }}.</p>
+    {%- endif -%}
+    {{ blog_post.content }}
+  </div>
+
+  <div class='info row'>
+    <div class='date col-sm-5'>
+      Published {{ blog_post.published_at | to_date | localize: 'long' }}
+    </div>
+    <div class='social col-sm-7 clearfix'>
+      {% include 'blog/social_buttons' %}
+    </div>
+  </div>
+
+  <div class='author row'>
+    {%- if blog_post.author_avatar_url }} -%}
+      <div>
+         <div class='avatar-container' style="background-image: url({{ blog_post.author_avatar_url }});"></div>
+      </div>
+    {%- endif -%}
+    <div class='biography {% if blog_post.author_avatar_present? %} col-sm-10 {% else %} col-sm-12 {% endif %}'>
+      <h3>{{ blog_post.author_name }}</h3>
+      <p>{{ blog_post.author_biography }}</p>
+    </div>
+  </div>
+
+  <div class='container-fluid'>
+    <div class='links row'>
+      {%- query_graph 'get_blog_posts', result_name: next_post_query, published_at_gt: blog_post.published_at -%}
+      {% assign next_post = next_post_query.blog_posts.results.last %}
+
+      {%- if next_post -%}
+        <div class='col-xs-6'>
+          <a class='previous-blog-post' href='{{ next_post.slug }}'>
+            NEXT STORY
+          </a>
+        </div>
+      {% endif%}
+
+      {%- query_graph 'get_blog_posts', result_name: prev_post_query, published_at_lt: blog_post.published_at %}
+      {% assign previous_post = prev_post_query.blog_posts.results.first %}
+
+      {% if previous_post %}
+        <div class='col-xs-6'>
+          <a class='next-blog-post' href='{{ previous_post.slug }}'>
+            PREVIOUS STORY
+          </a>
+        </div>
+      {% endif%}
+    </div>
+  </div>
+  <div class='fb-comments' data-numposts="5" data-colorscheme="light" data-href='{{ blog_post.post_url }}'></div>
+</div>
