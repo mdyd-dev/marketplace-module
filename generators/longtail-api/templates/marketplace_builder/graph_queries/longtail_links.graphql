@@ -1,0 +1,23 @@
+query longtail_links($per_page: Int, $page: Int, $use_on_path: String) {
+	customizations(
+		per_page: $per_page
+		page: $page
+		name: "longtail_link"
+		properties: [
+			{
+				name: "use_on_path"
+				value: $use_on_path
+			}
+		]
+		){
+			total_entries
+			total_pages
+			has_next_page
+			has_previous_page
+			results {
+				name: property(name: "name")
+				use_on_path: property(name: "use_on_path")
+				destination_path: property(name: "destination_path")
+			}
+	}
+}

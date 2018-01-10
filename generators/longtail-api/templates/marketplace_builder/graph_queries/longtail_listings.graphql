@@ -1,0 +1,66 @@
+query longtail_listings($per_page: Int, $page: Int) {
+	listings(
+    per_page: $per_page,
+    page: $page,
+    listing: {
+      is_deleted: false
+    }
+  )
+  {
+    total_entries
+    total_pages
+		has_next_page
+		has_previous_page
+    results {
+      ...listingAttributes
+    }
+  }
+}
+
+# Fragment is shared with longtail_geo_listings
+
+fragment listingAttributes on Listing {
+  id
+  name
+  slug
+  description
+  state
+  currency
+  quantity
+
+  company {
+    name
+  }
+
+  address {
+    longitude
+    latitude
+    address
+    postcode
+    street
+    suburb
+    state
+    city
+    country
+  }
+
+  location {
+    name
+    slug
+  }
+
+  pricings {
+    unit
+    price_cents
+  }
+  photos {
+    id
+    original: url(version: "original")
+    fullscreen: url(version: "fullscreen")
+    space_listing: url(version: "space_listing")
+    golden: url(version: "golden")
+    large: url(version: "large")
+  }
+  listing_type: property(name: "listing_type")
+  t6: property(name: "t6")
+}

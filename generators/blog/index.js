@@ -94,8 +94,5 @@ module.exports = class extends Generator {
 
   postInstall() {
     console.log(chalk.green("MPP :: BlogModule :: Module files generated"));
-    console.log(
-      chalk.green("You will find usefull information in README file")
-    );
   }
 };
