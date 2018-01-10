@@ -1,0 +1,10 @@
+{% if path == blank %}
+  {% assign path = current_url %}
+{% endif %}
+
+{%- query_graph 'longtail_links', result_name: g, per_page: 20, page: 1, use_on_path: @path -%}
+{%- assign links = g.customizations.results -%}
+
+{% for link in links %}
+  <li><a href="{{ link.destination_path }}">{{ link.name }}</a></li>
+{% endfor %}

@@ -19,26 +19,9 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.fs.copyTpl(
-      this.templatePath("pages/longtail/transactables.liquid"),
-      this.destinationPath(`${targetPath}/pages/longtail/transactables.liquid`),
-      {
-        TOKEN: this.props.token
-      }
-    );
-    this.fs.copyTpl(
-      this.templatePath("pages/longtail/widget_links.liquid"),
-      this.destinationPath(`${targetPath}/pages/longtail/widget_links.liquid`)
-    );
-
-    this.fs.copyTpl(
-      this.templatePath("graph_queries/longtail_listings.graphql"),
-      this.destinationPath(`${targetPath}/graph_queries/longtail_listings.graphql`)
-    );
-    this.fs.copyTpl(
-      this.templatePath("graph_queries/longtail_geo_listings.graphql"),
-      this.destinationPath(`${targetPath}/graph_queries/longtail_geo_listings.graphql`)
-    );
+    this.fs.copyTpl(this.templatePath("."), this.destinationPath(path.join(process.cwd())), {
+      TOKEN: this.props.token
+    });
   }
 
   install() {
@@ -48,8 +31,8 @@ module.exports = class extends Generator {
   postInstall() {
     console.log(chalk.green("MPP :: LonggailAPI :: Module files generated"));
 
-    var postMessage = `Please remember to include longtail/widget_links to the homepage and listing show page.
-You can use the script below:
+    var postMessage = `Please remember to include longtail/widget_links to the homepage and listing show page. \
+    You can use the script below:
 
       <div id="longtail-widget-home">
         <div class="container">

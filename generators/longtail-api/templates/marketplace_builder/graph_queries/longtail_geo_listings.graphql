@@ -18,6 +18,8 @@ query longtail_geo_listings($per_page: Int, $page: Int, $lat: LatDegree!, $lng: 
   {
     total_entries
     total_pages
+		has_next_page
+		has_previous_page
     results {
       ...listingAttributes
     }

@@ -9,11 +9,15 @@ query longtail_listings($per_page: Int, $page: Int) {
   {
     total_entries
     total_pages
+		has_next_page
+		has_previous_page
     results {
       ...listingAttributes
     }
   }
 }
+
+# Fragment is shared with longtail_geo_listings
 
 fragment listingAttributes on Listing {
   id
