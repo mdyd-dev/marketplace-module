@@ -19,9 +19,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.fs.copyTpl(this.templatePath("."), this.destinationPath(path.join(process.cwd())), {
-      TOKEN: this.props.token
-    });
+    this.fs.copyTpl(this.templatePath("."), this.destinationPath(path.join(process.cwd())), this.props);
   }
 
   install() {

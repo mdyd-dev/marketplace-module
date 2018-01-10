@@ -10,7 +10,7 @@ require_verified_user: false
 {% assign current_url_without_params = current_url | split: '?' | first %}
 
 {%- assign token = request_headers.HTTP_AUTHORIZATION | split: '=' | last | replace: '"' , '' -%}
-{%- if token == '<%= TOKEN %>' -%}
+{%- if token == '<%= token %>' -%}
   {%- if params.lat and params.lng -%}
     {%- query_graph 'longtail_geo_listings', result_name: g, per_page: @per_page, page: @page, lat: params.lat, lng: params.lng -%}
   {%- else  -%}

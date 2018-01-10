@@ -11,7 +11,7 @@ layout: false
 {%- assign token = request_headers.HTTP_AUTHORIZATION | split: '=' | last | replace: '"' , '' -%}
 {%- query_graph 'longtail_links', result_name: g, per_page: @per_page, page: @page -%}
 {%- assign data = g.customizations -%}
-{%- if token == '<%= TOKEN %>' -%}
+{%- if token == '<%= token %>' -%}
   {"data":
     [
       {% for link in data.results %}
