@@ -1,0 +1,25 @@
+---
+name: Longtail Link
+custom_attributes:
+- name: destination_path
+  attribute_type: string
+  html_tag: input
+  input_html_options: {}
+  public: true
+  search_in_query: false
+  searchable: false
+- name: use_on_path
+  attribute_type: string
+  html_tag: input
+  input_html_options: {}
+  public: true
+  search_in_query: false
+  searchable: false
+- name: name
+  attribute_type: string
+  html_tag: input
+  input_html_options: {}
+  public: true
+  search_in_query: false
+  searchable: false
+---
