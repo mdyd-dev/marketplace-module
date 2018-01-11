@@ -1,0 +1,124 @@
+---
+name: blog_post
+async_callback_actions:
+  delay:
+  content:
+base_form: CustomizationForm
+configuration:
+  properties:
+    title:
+      validation:
+        presence: true
+    content:
+      validation:
+        presence: true
+    slug:
+      validation:
+        presence: true
+    excerpt:
+      validation:
+        presence: false
+    published_at:
+      validation:
+        presence: false
+    tags:
+      validation:
+        presence: false
+    blog_instance_id:
+      validation:
+        presence: true
+    author_name:
+      validation:
+        presence: false
+    author_biography:
+      validation:
+        presence: false
+  custom_images:
+    hero_image:
+      image:
+        validation: {
+          file_content_type: { allow: ['image/jpeg', 'image/png', 'image/gif'] }
+        }
+    author_avatar:
+      image:
+        validation: {
+          file_content_type: { allow: ['image/jpeg', 'image/png', 'image/gif'] }
+        }
+default_payload: |-
+  {%- query_graph 'get_blog_instance', result_name: bi, scope: '<%= blog_scope %>' -%}
+  {%- assign blog_instance = bi.customizations.results.first -%}
+  {
+    "properties_attributes": {
+      "blog_instance_id": "{{ blog_instance.id }}",
+      "slug": "{{ params.properties_attributes.title | default: '' | slugify }}"
+    }
+  }
+---
+{%- if form.model.id -%}
+  {% assign url = '/api/user/customizations/' | append: form.model.id %}
+  {% assign method = 'PUT' %}
+{%- else -%}
+  {% assign url = '/api/user/customizations' %}
+  {% assign method = 'POST' %}
+{%- endif -%}
+
+{% form_for form, url: @url, multipart: true, as: customization, method: @method, html-novalidate: false, html-class: 'container', html-data-expert-signup-form:true  %}
+  <input value="{{ form_configuration.id }}" type="hidden" name="form_configuration_id" />
+  <input value="{{ page.id }}" type="hidden" name="page_id" />
+  <input value="{{ form.custom_model_type_id }}" type="hidden" name="custom_model_type_id" />
+  <input value="/<%= blog_scope %>/admin" data-action='Sign Up' type="hidden" name="return_to" />
+
+  {% form_for form, url: @url, multipart: true, as: customization, method: @method, html-novalidate: false, html-class: 'container', html-data-expert-signup-form:true  %}
+    <input value="{{ form_configuration.id }}" type="hidden" name="form_configuration_id" />
+    <input value="{{ page.id }}" type="hidden" name="page_id" />
+    <input value="{{ form.custom_model_type_id }}" type="hidden" name="custom_model_type_id" />
+    <input value="/<%= blog_scope %>/admin" data-action='Sign Up' type="hidden" name="return_to" />
+
+    {% fields_for properties %}
+      {% include 'blog/inputs/text', field_name: 'title', form_name: 'properties' %}
+      {% include 'blog/inputs/text', field_name: 'content', form_name: 'properties', as_type: 'text' %}
+      {% include 'blog/inputs/text', field_name: 'excerpt', form_name: 'properties', as_type: 'text' %}
+      {% include 'blog/inputs/text', field_name: 'published_at', form_name: 'properties' %}
+      {% include 'blog/inputs/text', field_name: 'tags', form_name: 'properties', placeholder: "Tags separated with comma" %}
+    {% endfields_for %}
+
+
+    {% fields_for custom_images %}
+      {% fields_for hero_image, form: custom_images %}
+        {% input image, as: image, form: hero_image, hint: 'Please upload hero image' %}
+      {% endfields_for %}
+    {% endfields_for %}
+
+    {% fields_for properties %}
+      {% include 'blog/inputs/text', field_name: 'author_name', form_name: 'properties' %}
+      {% include 'blog/inputs/text', field_name: 'author_biography', form_name: 'properties' %}
+    {% endfields_for %}
+
+    {% fields_for custom_images %}
+      {% fields_for author_avatar, form: custom_images %}
+        {% input image, as: image, form: author_avatar, hint: 'Please upload your avatar' %}
+      {% endfields_for %}
+    {% endfields_for %}
+
+    <div class="row"> {% submit 'submit', class: 'btn btn-primary btn-lg', data-disable-with: 'saving...' %}</div>
+  {% endform_for %}
+
+  {% fields_for custom_images %}
+    {% fields_for hero_image, form: custom_images %}
+      {% input image, as: image, form: hero_image, hint: 'Please upload hero image' %}
+    {% endfields_for %}
+  {% endfields_for %}
+
+  {% fields_for properties %}
+    {% include 'blog/inputs/text', field_name: 'author_name', form_name: 'properties' %}
+    {% include 'blog/inputs/text', field_name: 'author_biography', form_name: 'properties' %}
+  {% endfields_for %}
+
+  {% fields_for custom_images %}
+    {% fields_for author_avatar, form: custom_images %}
+      {% input image, as: image, form: author_avatar, hint: 'Please upload your avatar' %}
+    {% endfields_for %}
+  {% endfields_for %}
+
+  <div class="row"> {% submit 'submit', class: 'btn btn-primary btn-lg', data-disable-with: 'saving...' %}</div>
+{% endform_for %}

@@ -1,0 +1,62 @@
+---
+slug: '<%= blog_scope %>/admin'
+format: html
+layout_name: '<%= layout_name %>'
+authorization_policies:
+  - <%= blog_type == 'User Blog' ? 'user_blog_edition' : 'instance_blog_edition' %>
+---
+{% assign page = params.page | default: 1 | plus: 0 %}
+{% assign per_page = params.per_page  | default: 10 | plus: 0 %}
+{%- capture url_template -%}
+{% if params.language %}/{lang}{%- endif -%}/<%= blog_scope %>/admin/{slug}
+{%- endcapture -%}
+{% assign url_params = current_full_path | extract_url_params: url_template %}
+
+{%- query_graph 'get_blog_instance', result_name: bi, scope: '<%= blog_scope %>'<%= blog_type == 'User Blog' ? ', current_user_id: @current_user.id' : '' %> -%}
+{% assign blog_instance = bi.customizations.results.first %}
+
+{%- query_graph 'get_blog_posts', result_name: g, blog_instance_id: blog_instance.id, tags: params.tags -%}
+{% assign blog_posts = g.customizations %}
+
+<img src="{{ blog_instance.header_image.transformed }}" />
+
+<h1>{{ blog_instance.title }}</h1>
+<p>
+  <a href="/<%= blog_scope %>/admin/settings">Settings</a>
+  <a href="/<%= blog_scope %>/{{ blog_instance.slug }}">Visit Blog</a>
+</p>
+<h3><a href="/<%= blog_scope %>/posts/new">New post</a></h3>
+{%- include 'blog/tag_filter', tags: @blog_instance.tags_filter -%}
+<h2>Blog posts:</h2>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Published At</th>
+  </tr>
+  {% for blog_post in blog_posts.results %}
+    <tr>
+      <td><a href="/<%= blog_scope %>/post/{{ blog_instance.slug }}/{{ blog_post.slug }}">{{ blog_post.title }}</a></td>
+      <td>{{ blog_post.author_name }}</td>
+      <td>{{ blog_post.published_at | localize: 'long' }}</td>
+      <td><a href="/<%= blog_scope %>/posts/edit/{{blog_post.id}}">Edit</a></td>
+      <td>
+        {% render_form blog_post_delete,
+          object_class: Customization,
+          object_id: @blog_post.id,
+          parent_object_class: CustomModelType,
+          parent_object_id: blog_post
+        %}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+
+{%- if per_page < blog_posts.total_entries -%}
+  {% for page in (1..blog_posts.total_pages) %}
+    <a href="{{ current_path }}?page={{ page }}">{{ page }}</a>
+  {% endfor %}
+  <br />
+  Showing: {{ per_page }} of {{ blog_posts.total_entries }}
+{%- endif -%}

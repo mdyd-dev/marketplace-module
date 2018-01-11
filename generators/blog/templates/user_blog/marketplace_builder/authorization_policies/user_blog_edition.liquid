@@ -1,0 +1,7 @@
+---
+name: user_blog_edition
+redirect_to: /
+---
+{%- query_graph 'get_blog_instance', result_name: g, scope: '<%= blog_scope %>' current_user_id: @current_user.id -%}
+{% assign user_id = g.customizations.results.first.user.id | plus: 0 %}
+{% if current_user and user_id == current_user.id %}true{% endif %}

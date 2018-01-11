@@ -1,0 +1,14 @@
+---
+slug: '<%= blog_scope %>/posts/edit'
+format: html
+layout_name: '<%= layout_name %>'
+authorization_policies:
+  - <%= blog_type == 'User Blog' ? 'user_blog_post_edition' : 'instance_blog_edition' %>
+---
+
+{% render_form <%= blog_type == 'User Blog' ? 'user_blog_post' : 'blog_post' %>,
+  object_class: Customization,
+  object_id: @params.slugs,
+  parent_object_class: CustomModelType,
+  parent_object_id: blog_post
+%}

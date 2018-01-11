@@ -1,0 +1,73 @@
+---
+slug: '<%= blog_scope %>'
+format: html
+layout_name: '<%= layout_name %>'
+---
+{%- capture url_template -%}
+{% if params.language %}/{lang}{%- endif -%}/<%= blog_scope %>/{slug}{?query*}
+{%- endcapture -%}
+
+{% assign url_params = current_full_path | extract_url_params: url_template %}
+{% assign page = url_params.query.page | default: 1 | plus: 0 %}
+{% assign per_page = url_params.query.per_page  | default: 10 | plus: 0 %}
+
+{%- query_graph 'get_blog_instance', result_name: bi, scope: '<%= blog_scope %>', slug: url_params.slug, enabled: 'true' -%}
+{% assign blog_instance = bi.customizations.results.first %}
+
+{% if url_params.slug != blank and blog_instance %}
+  {% assign user_id = blog_instance.user.id | plus: 0 %}
+  {%- if current_user.id == user_id -%}
+    <a href="/<%= blog_scope %>/admin/settings">Settings</a>
+  {%- endif -%}
+  {% assign today = 'now' | date: '%F' %}
+  {%- query_graph 'get_blog_posts', result_name: g, published_at_lte: today, per_page: per_page, page: page, blog_instance_id: blog_instance.id, tags: url_params.query.tags -%}
+  {% assign blog_posts = g.customizations %}
+
+  <img src="{{ blog_instance.header_image.transformed }}" />
+
+  <p><a href='/<%= blog_scope %>/rss/{{ blog_instance.slug }}.rss'>RSS</a></p>
+
+  <h1>{{ blog_instance.title }}</h1>
+
+  {%- include 'blog/tag_filter', tags: @blog_instance.tags_filter -%}
+
+  <h2>Blog posts:</h2>
+  <ul>
+    {% for blog_post in blog_posts.results %}
+      <div class='content'>
+        {%- if blog_post.tags -%}
+          <p> Tagged as: {{ blog_post.tags | join: ', ' }}.</p>
+        {%- endif -%}
+
+        {{ blog_post.content }}
+      </div>
+      {%- if blog_post.author_avatar_url -%}
+        <li>
+            <img src='{{ blog_post.author_avatar_url }}' />
+        </li>
+      {%- endif -%}
+      <li>
+        <a href="/<%= blog_scope %>/post/{{ blog_instance.slug }}/{{ blog_post.slug }}">{{ blog_post.title }}</a>
+      </li>
+      <li>
+        {{ blog_post.content | truncate: 200 }}
+      </li>
+      <li>
+        Author: {{ blog_post.author_name }}
+      </li>
+      <li style='border-bottom: 1px solid black; padding-bottom: 10px;'>
+        Published At: {{ blog_post.published_at  | localize: 'long' }}
+      </li>
+    {% endfor %}
+  </ul>
+
+  {%- if per_page < blog_posts.total_entries -%}
+    {% for page in (1..blog_posts.total_pages) %}
+      <a href="{{ current_path }}?page={{ page }}&per_page={{ per_page }}">{{ page }}</a>
+    {% endfor %}
+    <br />
+    Showing: {{ per_page }} of {{ blog_posts.total_entries }}
+  {%- endif -%}
+{% else %}
+  Blog is not enabled
+{% endif %}
