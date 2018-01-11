@@ -1,0 +1,46 @@
+---
+name: Blog Post
+custom_attributes:
+- name: title
+  attribute_type: string
+  public: true
+- name: content
+  attribute_type: text
+  public: true
+- name: header
+  attribute_type: string
+  public: true
+- name: author_name
+  attribute_type: string
+  public: true
+- name: author_biography
+  attribute_type: text
+  public: true
+- name: author_avatar
+  attribute_type: string
+  public: true
+- name: blog_instance_id
+  attribute_type: integer
+  public: true
+- name: user_id
+  attribute_type: integer
+  public: true
+- name: slug
+  attribute_type: string
+  public: true
+- name: published_at
+  attribute_type: datetime
+  public: true
+- name: created_at
+  attribute_type: datetime
+  public: true
+- name: updated_at
+  attribute_type: datetime
+  public: true
+- name: excerpt
+  attribute_type: text
+  public: true
+- name: author_avatar_versions_generated_at
+  attribute_type: datetime
+  public: true
+---
