@@ -8,19 +8,19 @@ module.exports = class extends Generator {
     const prompts = [
       {
         type: "input",
-        name: "blogScope",
+        name: "blog_scope",
         message: "Your blog url:",
         default: "new-blog"
       },
       {
         type: "confirm",
-        name: "generateLayout",
+        name: "generate_layout",
         message: "Do you want to create layout template?",
         default: false
       },
       {
         type: "input",
-        name: "layoutName",
+        name: "layout_name",
         message: "Your blog layout name:",
         default: "new-blog"
       }
@@ -32,56 +32,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.fs.copy(
-      this.templatePath("graph_queries/**"),
-      this.destinationPath(`${targetPath}/graph_queries/`),
-      {
-        globOptions: { dot: true }
-      }
-    );
-    this.fs.copy(
-      this.templatePath("liquid_views/blog/**"),
-      this.destinationPath(`${targetPath}/liquid_views/blog/`),
-      {
-        globOptions: { dot: true }
-      }
-    );
-
-    console.log("this.props.generateLayout", this.props.generateLayout);
-    if (this.props.generateLayout) {
-      this.fs.copyTpl(
-        this.templatePath("liquid_views/layouts/blog.layout.liquid"),
-        this.destinationPath(
-          `${targetPath}/liquid_views/layouts/${this.props.layoutName}.liquid`
-        ),
-        {
-          BLOG_SCOPE: this.props.blogScope,
-          LAYOUT_NAME: this.props.layoutName
-        }
-      );
-    }
-
-    this.fs.copyTpl(
-      this.templatePath("pages/blog/index.liquid"),
-      this.destinationPath(
-        `${targetPath}/pages/${this.props.blogScope}/index.liquid`
-      ),
-      {
-        BLOG_SCOPE: this.props.blogScope,
-        LAYOUT_NAME: this.props.layoutName
-      }
-    );
-
-    this.fs.copyTpl(
-      this.templatePath("pages/blog/post.liquid"),
-      this.destinationPath(
-        `${targetPath}/pages/${this.props.blogScope}/post.liquid`
-      ),
-      {
-        BLOG_SCOPE: this.props.blogScope,
-        LAYOUT_NAME: this.props.layoutName
-      }
-    );
+    this.fs.copyTpl(this.templatePath("."), this.destinationPath(path.join(process.cwd())), this.props);
   }
 
   install() {

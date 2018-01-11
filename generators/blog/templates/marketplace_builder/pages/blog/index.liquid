@@ -1,7 +1,7 @@
 ---
-slug: '<%= BLOG_SCOPE %>'
+slug: '<%= blog_scope %>'
 format: html
-layout_name: '<%= LAYOUT_NAME %>'
+layout_name: '<%= layout_name %>'
 ---
 {% assign page = params.page | default: 1 | plus: 0 %}
 {% assign per_page = params.per_page  | default: 10 | plus: 0 %}
@@ -19,7 +19,7 @@ Blog posts:
       </li>
     {%- endif -%}
     <li>
-      <a href="<%= BLOG_SCOPE %>/post/{{ blog_post.slug }}">{{ blog_post.title }}</a>
+      <a href="<%= blog_scope %>/post/{{ blog_post.slug }}">{{ blog_post.title }}</a>
     </li>
     <li>
       {{ blog_post.content | truncate: 200 }}
