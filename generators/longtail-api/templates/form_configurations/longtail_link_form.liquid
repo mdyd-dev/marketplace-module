@@ -1,0 +1,19 @@
+---
+name: longtail_link_form
+async_callback_actions:
+  delay:
+  content:
+base_form: CustomizationForm
+configuration:
+  properties:
+    name:
+      validation:
+        presence: true
+    use_on_path:
+      validation:
+        presence: true
+    destination_path:
+      validation:
+        presence: true
+default_payload: "{}"
+---
