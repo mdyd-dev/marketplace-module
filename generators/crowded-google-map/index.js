@@ -29,14 +29,16 @@ module.exports = class extends Generator {
     if (this.props.savePackage) {
       this.npmInstall(['crowded-google-map'], { save: true }).then(() => {
         console.log(chalk.green('MPP :: Crowded Google Map :: NPM module installed and saved to package.json'));
-        console.log(chalk.green('See readme for this package: https://www.npmjs.com/package/crowded-google-map'));
       });
     }
   }
 
   end() {
     console.log(
-      chalk.yellow('Deploy your files and go to http://<your-project>/crowded-google-map to see the working example')
+      chalk.green('See readme for the crowded-google-map package: https://www.npmjs.com/package/crowded-google-map')
+    );
+    console.log(
+      chalk.yellow('Deploy your files and open your project at page /crowded-google-map to see the working example')
     );
   }
 };
