@@ -10,6 +10,6 @@
 <body>
   {{ content_for_layout }}
 
-  <script src="{{ 'crowded-google-map.js' | asset_url }}"></script>
+  {% yield 'javascripts' %}
 </body>
 </html>
