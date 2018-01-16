@@ -1,16 +1,16 @@
-const Generator = require("yeoman-generator");
-const chalk = require("chalk");
-const path = require("path");
-const targetPath = path.join(process.cwd(), "marketplace_builder");
+const Generator = require('yeoman-generator');
+const chalk = require('chalk');
+const path = require('path');
+const targetPath = path.join(process.cwd(), 'marketplace_builder');
 
 module.exports = class extends Generator {
   prompting() {
     const prompts = [
       {
-        type: "input",
-        name: "token",
-        message: "Please provide your API token:",
-      },
+        type: 'input',
+        name: 'token',
+        message: 'Please provide your API token:'
+      }
     ];
 
     return this.prompt(prompts).then(props => {
@@ -19,15 +19,15 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.fs.copyTpl(this.templatePath("."), this.destinationPath(path.join(process.cwd())), this.props);
+    this.fs.copyTpl(this.templatePath('.'), this.destinationPath(path.join(process.cwd())), this.props);
   }
 
   install() {
-    console.log(chalk.green("MPP :: Longtail :: Installing"));
+    console.log(chalk.green('MPP :: Longtail :: Installing'));
   }
 
-  postInstall() {
-    console.log(chalk.green("MPP :: LonggailAPI :: Module files generated"));
+  end() {
+    console.log(chalk.green('MPP :: LonggailAPI :: Module files generated'));
 
     var postMessage = `Please remember to include longtail/widget_links to the homepage and listing show page. \
     You can use the script below:
@@ -40,7 +40,7 @@ module.exports = class extends Generator {
           </ul>
         </div>
       </div>
-`
+`;
     console.log(chalk.red(postMessage));
   }
 };
