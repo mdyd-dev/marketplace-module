@@ -1,0 +1,31 @@
+---
+name: new_blog_post
+async_callback_actions:
+  delay:
+  content:
+base_form: CustomizationForm
+configuration:
+  properties:
+    title:
+      validation:
+        presence: true
+    content:
+      validation:
+        presence: true
+default_payload: "{
+
+}"
+---
+{% form_for form, url: '/api/customizations', as: customization, method: post, html-novalidate: false, html-class: 'container', html-data-expert-signup-form:true  %}
+  <input value="{{ form_configuration.id }}" type="hidden" name="form_configuration_id" />
+  <input value="{{ page.id }}" type="hidden" name="page_id" />
+  <input value="{{ form.custom_model_type_id }}" type="hidden" name="custom_model_type_id" />
+  <input value="/<%= blog_scope %>" type="hidden" name="return_to" />
+
+  {% fields_for properties %}
+    {% input_field 'title', form: 'properties', as: 'text' %}
+    {% input_field 'validation', form: 'properties', as: 'text' %}
+  {% endfields_for %}
+
+  <div class="row"> {% submit 'Submit', class: 'btn btn-primary btn-lg', data-disable-with: 'Saving...' %}</div>
+{% endform_for %}

@@ -7,19 +7,21 @@ layout_name: '<%= layout_name %>'
 {% assign per_page = params.per_page  | default: 10 | plus: 0 %}
 
 {%- query_graph 'get_blog_posts', result_name: g, page: page , per_page: per_page -%}
+{% assign blog_posts = g.customizations %}
+<a href="/<%= blog_scope %>/posts/new">New post</a>
 
-Showing: {{ per_page}} of {{ g.blog_posts.total_entries }}
+Showing: {{ per_page}} of {{ blog_posts.total_entries }}
 
 Blog posts:
 <ul>
-  {% for blog_post in  g.blog_posts.results %}
-    {%- if blog_post.author_avatar_url }} -%}
+  {% for blog_post in blog_posts.results %}
+    {%- if blog_post.author_avatar_url -%}
       <li>
           <img src='{{ blog_post.author_avatar_url }}' />
       </li>
     {%- endif -%}
     <li>
-      <a href="<%= blog_scope %>/post/{{ blog_post.slug }}">{{ blog_post.title }}</a>
+      <a href="new-blog/post/{{ blog_post.slug }}">{{ blog_post.title }}</a>
     </li>
     <li>
       {{ blog_post.content | truncate: 200 }}
@@ -33,6 +35,7 @@ Blog posts:
   {% endfor %}
 </ul>
 
-{% for page in  (1..g.blog_posts.total_pages) %}
+
+{% for page in  (1..blog_posts.total_pages) %}
   <a href="{{ current_path }}?page={{ page }}">{{ page }}</a>
 {% endfor %}

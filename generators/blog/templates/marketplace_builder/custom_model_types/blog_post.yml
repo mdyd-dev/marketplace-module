@@ -19,9 +19,6 @@ custom_attributes:
 - name: author_avatar
   attribute_type: string
   public: true
-- name: blog_instance_id
-  attribute_type: integer
-  public: true
 - name: user_id
   attribute_type: integer
   public: true
@@ -29,12 +26,6 @@ custom_attributes:
   attribute_type: string
   public: true
 - name: published_at
-  attribute_type: datetime
-  public: true
-- name: created_at
-  attribute_type: datetime
-  public: true
-- name: updated_at
   attribute_type: datetime
   public: true
 - name: excerpt
