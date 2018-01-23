@@ -1,0 +1,85 @@
+---
+slug: '<%= blog_scope %>/post'
+format: html
+layout_name: '<%= blog_scope %>'
+---
+
+{%- query_graph 'get_blog_instance', result_name: bi, current_user_id: @current_user.id, enabled: "true" -%}
+{% assign blog_instance = bi.customizations.results.first %}
+{%- if blog_instance -%}
+{%- query_graph 'get_blog_posts', result_name: g,  blog_instance_id: blog_instance.id, tags: params.tags -%}
+
+  {% assign today = 'now' | date: '%F' %}
+  {%- query_graph 'get_blog_posts', result_name: g, published_at_lte: today, blog_instance_id: blog_instance.id, slug: params.slug3 -%}
+  {% assign blog_post = g.customizations.results.first %}
+
+  {% content_for title %}
+    {{ blog_post.title }}
+  {% endcontent_for %}
+
+  <img src="{{ blog_post.hero_image.transformed }}" />
+
+  <div class='blog-post-detail'>
+    <h1>{{ blog_post.title }}</h1>
+
+    {% include 'blog/social_buttons' %}
+
+    <div class='content'>
+      {%- if blog_post.tags -%}
+        <p> Tagged as: {{ blog_post.tags | join: ', ' }}.</p>
+      {%- endif -%}
+
+      {{ blog_post.content }}
+    </div>
+
+    <div class='info row'>
+      <div class='date col-sm-5'>
+        Published {{ blog_post.published_at | localize: 'long' }}
+      </div>
+      <div class='social col-sm-7 clearfix'>
+        {% include 'blog/social_buttons' %}
+      </div>
+    </div>
+
+    <div class='author row'>
+      {%- if blog_post.author_avatar.thumb -%}
+        <div>
+          <img src="{{ blog_post.author_avatar.thumb }}" />
+        </div>
+      {%- endif -%}
+      <div>
+        <h3>{{ blog_post.author_name }}</h3>
+        <p>{{ blog_post.author_biography }}</p>
+      </div>
+    </div>
+
+    <div class='container-fluid'>
+      <div class='links row'>
+        {%- query_graph 'get_blog_posts', result_name: next_post_query, published_at_gt: blog_post.published_at, published_at_lte: today -%}
+        {% assign next_post = next_post_query.customizations.results.last %}
+
+        {%- if next_post -%}
+          <div class='col-xs-6'>
+            <a class='previous-blog-post' href='{{ next_post.slug }}'>
+              NEXT STORY
+            </a>
+          </div>
+        {% endif%}
+
+        {%- query_graph 'get_blog_posts', result_name: prev_post_query, published_at_lt: blog_post.published_at %}
+        {% assign previous_post = prev_post_query.customizations.results.first %}
+
+        {% if previous_post %}
+          <div class='col-xs-6'>
+            <a class='next-blog-post' href='{{ previous_post.slug }}'>
+              PREVIOUS STORY
+            </a>
+          </div>
+        {% endif%}
+      </div>
+    </div>
+    <div class='fb-comments' data-numposts="5" data-colorscheme="light" data-href='{{ blog_post.post_url }}'></div>
+  </div>
+{%- else -%}
+  Blog in not enabled
+{%- endif -%}

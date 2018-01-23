@@ -10,7 +10,7 @@ module.exports = class extends Generator {
         type: "input",
         name: "blog_scope",
         message: "Your blog url:",
-        default: "new-blog"
+        default: "<%= blog_scope %>"
       },
       {
         type: "confirm",
@@ -22,7 +22,7 @@ module.exports = class extends Generator {
         type: "input",
         name: "layout_name",
         message: "Your blog layout name:",
-        default: "new-blog"
+        default: "<%= blog_scope %>"
       }
     ];
 
