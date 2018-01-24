@@ -12,6 +12,7 @@ query get_blog_posts(
 )
 {
 	customizations (
+    is_deleted: false
 		per_page: $per_page
 		page: $page
 		name: "blog_post"

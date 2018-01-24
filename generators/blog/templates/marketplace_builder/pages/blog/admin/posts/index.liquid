@@ -1,7 +1,7 @@
 ---
 slug: '<%= blog_scope %>/admin'
 format: html
-layout_name: '<%= blog_scope %>'
+layout_name: '<%= layout_name %>'
 authorization_policies:
   - user_blog_edition
 ---
@@ -18,7 +18,7 @@ authorization_policies:
 
 <h1>{{ blog_instance.title }}</h1>
 <p>
-  <a href="/<%= blog_scope %>/settings">Settings</a>
+  <a href="/<%= blog_scope %>/admin/settings">Settings</a>
   <a href="/<%= blog_scope %>">Visit Blog</a>
 </p>
 <h3><a href="/<%= blog_scope %>/posts/new">New post</a></h3>

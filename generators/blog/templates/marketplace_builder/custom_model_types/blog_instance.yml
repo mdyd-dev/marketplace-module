@@ -4,6 +4,9 @@ custom_attributes:
 - name: title
   attribute_type: string
   public: true
+- name: slug
+  attribute_type: string
+  public: true
 - name: enabled
   attribute_type: boolean
   public: true

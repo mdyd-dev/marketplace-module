@@ -9,6 +9,9 @@ configuration:
     title:
       validation:
         presence: true
+    slug:
+      validation:
+        presence: true
     enabled:
       validation:
         presence: false
@@ -52,10 +55,10 @@ default_payload: |-
     {% input_field 'tags_filter', form: 'properties', as: 'string' %}
   {% endfields_for %}
 
-  <br />hero_image
+  <br />
   {% fields_for custom_images %}
     {% fields_for header_image, form: custom_images %}
-      {% input image, as: image, form: header_image, hint: 'Please upload hero image' %}
+      {% input image, as: image, form: header_image, hint: 'Please upload header image' %}
     {% endfields_for %}
   {% endfields_for %}
 

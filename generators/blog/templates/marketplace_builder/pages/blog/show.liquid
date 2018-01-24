@@ -1,16 +1,22 @@
 ---
 slug: '<%= blog_scope %>/post'
 format: html
-layout_name: '<%= blog_scope %>'
+layout_name: '<%= layout_name %>'
 ---
 
-{%- query_graph 'get_blog_instance', result_name: bi, current_user_id: @current_user.id, enabled: "true" -%}
+{%- capture url_template -%}
+{% if params.language %}/{lang}{%- endif -%}/<%= blog_scope %>/post/{blog_slug}/{post_slug}
+{%- endcapture -%}
+{% assign url_params = current_full_path | extract_url_params: url_template %}
+
+{%- query_graph 'get_blog_instance', result_name: bi, slug: url_params.blog_slug, enabled: 'true' -%}
 {% assign blog_instance = bi.customizations.results.first %}
-{%- if blog_instance -%}
-{%- query_graph 'get_blog_posts', result_name: g,  blog_instance_id: blog_instance.id, tags: params.tags -%}
+
+{% if url_params.blog_slug != blank and url_params.post_slug != blank and blog_instance %}
+  {%- query_graph 'get_blog_posts', result_name: g,  blog_instance_id: blog_instance.id, tags: params.tags -%}
 
   {% assign today = 'now' | date: '%F' %}
-  {%- query_graph 'get_blog_posts', result_name: g, published_at_lte: today, blog_instance_id: blog_instance.id, slug: params.slug3 -%}
+  {%- query_graph 'get_blog_posts', result_name: g, published_at_lte: today, blog_instance_id: blog_instance.id, slug: url_params.post_slug -%}
   {% assign blog_post = g.customizations.results.first %}
 
   {% content_for title %}
@@ -60,7 +66,7 @@ layout_name: '<%= blog_scope %>'
 
         {%- if next_post -%}
           <div class='col-xs-6'>
-            <a class='previous-blog-post' href='{{ next_post.slug }}'>
+            <a class='previous-blog-post' href='/<%= blog_scope %>/post/{{ blog_instance.slug }}/{{ next_post.slug }}'>
               NEXT STORY
             </a>
           </div>
@@ -71,7 +77,7 @@ layout_name: '<%= blog_scope %>'
 
         {% if previous_post %}
           <div class='col-xs-6'>
-            <a class='next-blog-post' href='{{ previous_post.slug }}'>
+            <a class='next-blog-post' href='/<%= blog_scope %>/post/{{ blog_instance.slug }}/{{ previous_post.slug }}'>
               PREVIOUS STORY
             </a>
           </div>
