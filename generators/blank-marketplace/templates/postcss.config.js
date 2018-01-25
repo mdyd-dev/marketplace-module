@@ -1,4 +1,5 @@
 /* I’ve removed mqpacker - it was causing order of rules issues */
+// TODO: Investigate above
 
 const fixes = require('postcss-fixes');
 const focus = require('postcss-focus');

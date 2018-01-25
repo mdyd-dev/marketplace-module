@@ -2,69 +2,63 @@ const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const path = require('path');
 
+const isEmpty = input => (input.length === 0 ? console.log(chalk.red('\nCant be empty')) : true);
+
 module.exports = class extends Generator {
   prompting() {
     const prompts = [
       {
         type: 'input',
         name: 'name',
-        message: 'What is the name of your marketplace?'
+        message: 'What is the name of your marketplace?',
+        validate: isEmpty
       },
       {
         type: 'input',
         name: 'production',
-        message: 'Set PRODUCTION url:'
+        message: 'Set PRODUCTION url:',
+        validate: isEmpty
       },
       {
         type: 'input',
         name: 'staging',
-        message: 'Set STAGING url:'
+        message: 'Set STAGING url:',
+        validate: isEmpty
       },
       {
         type: 'input',
         name: 'local',
-        message: 'Set LOCAL url:'
+        message: 'Set LOCAL url:',
+        validate: isEmpty
       }
     ];
 
     return this.prompt(prompts).then(props => {
-      this.props = props;
+      const projectName = props.name.replace(/\s+/g, '-').toLowerCase();
+
+      this.props = Object.assign({}, props, {
+        projectName: projectName,
+        projectDir: `marketplace-${projectName}`
+      });
     });
   }
 
   writing() {
-    const projectName = this.props.name.replace(/\s+/g, '-').toLowerCase();
-    this.projectDir = `marketplace-${projectName}`;
-
-    this.fs.copy(this.templatePath('files/**'), this.destinationPath(this.projectDir), {
-      globOptions: { dot: true }
-    });
-
     this.fs.copyTpl(
-      this.templatePath('files/marketplace_builder/.builder'),
-      this.destinationPath(this.projectDir + '/marketplace_builder/.builder'),
+      this.templatePath(),
+      this.destinationPath(this.props.projectDir),
+      this.props,
+      {},
       {
-        PRODUCTION_URL: this.props.production,
-        STAGING_URL: this.props.staging,
-        LOCAL_URL: this.props.local
+        globOptions: { dot: true }
       }
     );
-
-    this.fs.copyTpl(this.templatePath('README.md'), this.destinationPath(this.projectDir + '/README.md'), {
-      NAME: this.props.name,
-      DIR: this.projectDir
-    });
-
-    this.fs.copyTpl(this.templatePath('package.json'), this.destinationPath(this.projectDir + '/package.json'), {
-      NAME: this.props.name,
-      PROJECT_NAME: projectName
-    });
   }
 
   install() {
     console.log(chalk.green('MPP :: BlankMarketplace :: Installing NPM dependencies'));
 
-    process.chdir(`${process.cwd()}/${this.projectDir}`);
+    process.chdir(`${this.contextRoot}/${this.props.projectDir}`);
     this.npmInstall();
   }
 

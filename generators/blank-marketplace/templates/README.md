@@ -1,9 +1,9 @@
-# <%= NAME %>
+# <%= projectName %>
 
 ## Getting started
 
 1. Install npm dependencies using `npm i`
-2. In your `<%= DIR %>` directory:
+2. In your `<%= projectDir %>` directory:
 
 * `npm i` # install npm dependencies
 * `marketplace-kit sync -e <env>` # update assets/views/graphql/translations in database if they change
@@ -11,6 +11,10 @@
 
 Assets will be built into: `marketplace_builder/custom_themes/default_custom_theme_assets/` (in this document later
 called `${BUILD_DIR}` - it is set up inside `package.json` file)
+
+## Static assets
+
+Files from `/static` directory wont be processed by webpack - just copied over to the build directory.
 
 ### Deploy
 
@@ -30,7 +34,7 @@ Remember to have proper configuration in `marketplace_builder/.builder` file.
 
 Before pushing/deploying your changes it is a good practice to generate production assets.
 
-    npm run build:prod
+    npm run build:production
 
 #### Suspicious Node errors
 

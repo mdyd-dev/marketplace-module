@@ -38,11 +38,23 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.fs.copyTpl(this.templatePath('.'), this.destinationPath(path.join(process.cwd())), this.props);
+    this.fs.copyTpl(
+      this.templatePath('.'),
+      this.destinationPath(path.join(process.cwd())),
+      this.props,
+      {}, // do not forget to pass this empty object if you want to pass globOptions.
+      {
+        globOptions: { dot: true }
+      }
+    );
   }
 
   install() {
-    // Not needed. Everything is just fine.
+    // Example of installing dependencies saved in module package.json file (in this case not needed, ergo, commented)
+    /*
+      process.chdir(`${this.contextRoot}/${this.props.projectDir}`);
+      this.npmInstall();
+    */
   }
 
   end() {
