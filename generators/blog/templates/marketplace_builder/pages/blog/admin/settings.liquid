@@ -3,14 +3,15 @@ slug: '<%= blog_scope %>/admin/settings'
 format: html
 layout_name: '<%= layout_name %>'
 ---
-<a href="/<%= blog_scope %>/posts"> Visit Blog</a>
+{%- query_graph 'get_blog_instance', result_name: bi, current_user_id: @current_user.id -%}
+{% assign blog = bi.customizations.results.first %}
+
+<a href="/<%= blog_scope %>/{{ blog.slug }}"> Visit Blog</a>
 <a href="/<%= blog_scope %>/admin/posts"> Edit Posts</a>
 
-{%- query_graph 'get_blog_instance', result_name: bi, current_user_id: @current_user.id -%}
-{% assign blog = bi.customizations.results.first.id | default: 'new' %}
 {% render_form blog_settings,
   object_class: Customization,
-  object_id: @blog,
+  object_id: @blog.id | default: 'new',
   parent_object_class: CustomModelType,
   parent_object_id: blog_instance
 %}

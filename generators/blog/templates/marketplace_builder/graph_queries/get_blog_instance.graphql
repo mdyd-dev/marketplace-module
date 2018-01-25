@@ -20,6 +20,9 @@ query get_blog_instance( $current_user_id: ID, $slug: String, $enabled: String )
   {
 		results {
       id
+			user {
+				id
+			}
       title: property(name: "title")
 			slug: property(name: "slug")
       enabled: property(name: "enabled")

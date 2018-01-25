@@ -7,8 +7,12 @@ authorization_policies:
 ---
 {% assign page = params.page | default: 1 | plus: 0 %}
 {% assign per_page = params.per_page  | default: 10 | plus: 0 %}
+{%- capture url_template -%}
+{% if params.language %}/{lang}{%- endif -%}/<%= blog_scope %>/admin/{slug}
+{%- endcapture -%}
+{% assign url_params = current_full_path | extract_url_params: url_template %}
 
-{%- query_graph 'get_blog_instance', result_name: bi, current_user_id: @current_user.id -%}
+{%- query_graph 'get_blog_instance', result_name: bi, slug: url_params.slug, current_user_id: @current_user.id -%}
 {% assign blog_instance = bi.customizations.results.first %}
 
 {%- query_graph 'get_blog_posts', result_name: g, blog_instance_id: blog_instance.id, tags: params.tags -%}
@@ -19,7 +23,7 @@ authorization_policies:
 <h1>{{ blog_instance.title }}</h1>
 <p>
   <a href="/<%= blog_scope %>/admin/settings">Settings</a>
-  <a href="/<%= blog_scope %>">Visit Blog</a>
+  <a href="/<%= blog_scope %>/{{ blog_instance.slug }}">Visit Blog</a>
 </p>
 <h3><a href="/<%= blog_scope %>/posts/new">New post</a></h3>
 {%- include 'blog/tag_filter', tags: @blog_instance.tags_filter -%}
@@ -31,11 +35,11 @@ authorization_policies:
   </tr>
   {% for blog_post in blog_posts.results %}
     <tr>
-      <td><a href="/<%= blog_scope %>/post/{{ blog_post.slug }}">{{ blog_post.title }}</a></td>
+      <td><a href="/<%= blog_scope %>/post/{{ blog_instance.slug }}/{{ blog_post.slug }}">{{ blog_post.title }}</a></td>
       <td>{{ blog_post.author_name }}</td>
       <td>{{ blog_post.published_at | localize: 'long' }}</td>
       <td><a href="/<%= blog_scope %>/posts/edit/{{blog_post.id}}">Edit</a></td>
-      <td><a href="/<%= blog_scope %>/posts/edit/{{blog_post.id}}">Delete</a></td>
+      <td><a data-confirm="Are you sure?" data-method="delete" href="/api/user/customizations/{{ blog_post.id }}?form_configuration_name=delete_blog_post&return_to=redirect_to=%2F<%= blog_scope %>%2Fadmin%2Fposts">Delete</a></td>
     </tr>
   {% endfor %}
 </table>
