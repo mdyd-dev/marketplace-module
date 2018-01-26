@@ -10,8 +10,8 @@
     "lint:fix": "prettier-eslint --write --eslint-config-path .eslintrc.json",
     "start": "npm run build:dev -- -w",
     "sync": "marketplace-kit sync -e",
-    "clean": "echo 'Emptying build directory' & rm -rf $npm_package_config_build_dir/*",
-    "copy-static": "cp -R static/* $npm_package_config_build_dir/",
+    "clean": "echo 'Clearing build directory' & rm -rf $npm_package_config_build_dir/*",
+    "copy-static": "cp -a src/static/. $npm_package_config_build_dir/",
     "build:dev": "webpack",
     "prebuild:production": "npm run clean; npm run copy-static",
     "build:production": "NODE_ENV=production webpack -p",
@@ -27,7 +27,8 @@
     "concurrent": true,
     "subTaskConcurrency": 3,
     "linters": {
-      "{src,static}/**/*.{js,scss,graphql,md}": ["lint:fix", "git add"]
+      "src/**/*.js": ["lint:fix", "git add"],
+      "src/**/*.{scss,graphql,md}": ["lint:fix", "git add"]
     }
   },
   "browserslist": ["last 2 versions", "iOS > 7", "Safari > 6"],
@@ -39,6 +40,7 @@
     "@babel/cli": "^7.0.0-beta.38",
     "@babel/core": "^7.0.0-beta.38",
     "babel-loader": "^8.0.0-beta.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "cache-loader": "^1.2.0",
     "check-node-version": "^3.2.0",
@@ -49,7 +51,7 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
     "glob-all": "^3.1.0",
-    "lint-staged": "^6.0.1",
+    "lint-staged": "^6.1.0",
     "node-sass": "4.7.2",
     "npm-check-updates": "^2.14.0",
     "postcss": "^6.0.16",

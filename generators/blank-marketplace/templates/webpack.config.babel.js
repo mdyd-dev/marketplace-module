@@ -24,9 +24,13 @@ module.exports = env => {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks: function(module) {
-        return module.context && module.context.indexOf('node_modules') !== -1;
+      minChunks: function(module, count) {
+        return module.resource && module.resource.indexOf('node_modules') !== -1 && count > 2;
       }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      async: true,
+      children: true
     }),
     extractCSS,
     new webpack.optimize.ModuleConcatenationPlugin(),
@@ -49,7 +53,7 @@ module.exports = env => {
     },
     devtool: false,
     resolve: {
-      modules: ['node_modules', './src/javascripts']
+      modules: ['node_modules', './src']
     },
     bail: true,
     stats: {

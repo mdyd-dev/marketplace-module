@@ -14,7 +14,7 @@ called `${BUILD_DIR}` - it is set up inside `package.json` file)
 
 ## Static assets
 
-Files from `/static` directory wont be processed by webpack - just copied over to the build directory.
+Files from `/src/static` directory will not be processed by webpack - just copied over to the build directory.
 
 ### Deploy
 
@@ -35,6 +35,12 @@ Remember to have proper configuration in `marketplace_builder/.builder` file.
 Before pushing/deploying your changes it is a good practice to generate production assets.
 
     npm run build:production
+
+### NPM scripts
+
+Get familiar with available npm scripts to speed up your workflow:
+
+    npm run
 
 #### Suspicious Node errors
 
