@@ -26,6 +26,7 @@ query get_blog_posts(
 			{
 				name: "tags"
 				values: $tags
+        values_operator: OR
 			},
 			{
 				name: "blog_instance_id"

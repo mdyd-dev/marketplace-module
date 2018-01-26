@@ -12,7 +12,7 @@ authorization_policies:
 {%- endcapture -%}
 {% assign url_params = current_full_path | extract_url_params: url_template %}
 
-{%- query_graph 'get_blog_instance', result_name: bi, slug: url_params.slug, current_user_id: @current_user.id -%}
+{%- query_graph 'get_blog_instance', result_name: bi, scope: '<%= blog_scope %>', current_user_id: @current_user.id -%}
 {% assign blog_instance = bi.customizations.results.first %}
 
 {%- query_graph 'get_blog_posts', result_name: g, blog_instance_id: blog_instance.id, tags: params.tags -%}

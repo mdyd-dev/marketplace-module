@@ -12,6 +12,9 @@ configuration:
     slug:
       validation:
         presence: true
+    scope:
+      validation:
+        presence: true
     enabled:
       validation:
         presence: false
@@ -31,7 +34,6 @@ default_payload: |-
     }
   }
 ---
-
 {%- if form.model.id -%}
   {% assign url = '/api/user/customizations/' | append: form.model.id %}
   {% assign method = 'PUT' %}
@@ -44,9 +46,11 @@ default_payload: |-
   <input value="{{ form_configuration.id }}" type="hidden" name="form_configuration_id" />
   <input value="{{ page.id }}" type="hidden" name="page_id" />
   <input value="{{ form.custom_model_type_id }}" type="hidden" name="custom_model_type_id" />
-  <input value="/<%= blog_scope %>/admin" data-action='Sign Up' type="hidden" name="return_to" />
+  <input value="{{ current_path | remove: '/settings'}}" data-action='Sign Up' type="hidden" name="return_to" />
 
   {% fields_for properties %}
+    {% input_field 'scope', value: @scope, form: 'properties', as: 'hidden' %}
+
     <br />title
     {% input_field 'title', form: 'properties', as: 'string' %}
     <br />enabled

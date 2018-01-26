@@ -1,4 +1,4 @@
-query get_blog_instance( $current_user_id: ID, $slug: String, $enabled: String )
+query get_blog_instance( $current_user_id: ID, $slug: String, $scope: String, $enabled: String )
 {
 	customizations (
 		is_deleted: false
@@ -10,6 +10,10 @@ query get_blog_instance( $current_user_id: ID, $slug: String, $enabled: String )
 			{
 				name: "enabled"
 				value: $enabled
+			}
+			{
+				name: "scope"
+				value: $scope
 			}
 			{
 				name: "slug"
@@ -24,6 +28,7 @@ query get_blog_instance( $current_user_id: ID, $slug: String, $enabled: String )
 				id
 			}
       title: property(name: "title")
+      scope: property(name: "scope")
 			slug: property(name: "slug")
       enabled: property(name: "enabled")
       tags_filter: property_array(name: "tags_filter")

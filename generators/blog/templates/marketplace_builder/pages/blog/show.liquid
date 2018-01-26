@@ -9,7 +9,7 @@ layout_name: '<%= layout_name %>'
 {%- endcapture -%}
 {% assign url_params = current_full_path | extract_url_params: url_template %}
 
-{%- query_graph 'get_blog_instance', result_name: bi, slug: url_params.blog_slug, enabled: 'true' -%}
+{%- query_graph 'get_blog_instance', result_name: bi, scope: '<%= blog_scope %>', slug: url_params.blog_slug, enabled: 'true' -%}
 {% assign blog_instance = bi.customizations.results.first %}
 
 {% if url_params.blog_slug != blank and url_params.post_slug != blank and blog_instance %}
