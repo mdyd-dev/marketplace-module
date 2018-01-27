@@ -29,9 +29,10 @@ authorization_policies:
 {%- include 'blog/tag_filter', tags: @blog_instance.tags_filter -%}
 <h2>Blog posts:</h2>
 <table>
-  <tr>Title</th>
-  <tr>Author</th>
-  <tr>Published At</th>
+  <tr>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Published At</th>
   </tr>
   {% for blog_post in blog_posts.results %}
     <tr>
