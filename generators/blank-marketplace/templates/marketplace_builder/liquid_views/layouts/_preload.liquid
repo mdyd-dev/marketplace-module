@@ -1,0 +1,5 @@
+<link rel="preload" href="{{ asset_url['manifest.js'] }}" as="script">
+<link rel="preload" href="{{ asset_url['vendor.js'] }}" as="script">
+<link rel="preload" href="{{ asset_url['app.js'] }}" as="script">
+
+{% yield 'preload' %}

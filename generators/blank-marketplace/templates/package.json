@@ -1,29 +1,24 @@
 {
-  "name": "<%= PROJECT_NAME %>",
-  "version": "1.0.0",
-  "description": "<%= NAME %>",
+  "name": "<%= projectName %>",
+  "version": "1.1.0",
+  "description": "<%= projectName %> Marketplace Frontend",
   "config": {
     "build_dir": "marketplace_builder/custom_themes/default_custom_theme_assets"
   },
   "scripts": {
-    "check-node-version": "check-node-version --node ^8.9 --npm ^5.5",
-    "postinstall": "npm run check-node-version",
+    "postinstall": "npm run build:dev",
     "lint": "lint-staged",
     "lint:fix": "prettier-eslint --write --eslint-config-path .eslintrc.json",
     "start": "npm run build:dev -- -w",
     "sync": "marketplace-kit sync -e",
-    "stop":
-      "echo 'Stopping Webpack to build production assets...' & pkill <%= PROJECT_NAME %>-webpack &",
-    "clean":
-      "echo 'Cleaning build directory from old assets' & rm -f $npm_package_config_build_dir/*.{js,css}",
+    "clean": "echo 'Clearing build directory' & rm -rf $npm_package_config_build_dir/*",
+    "copy-static": "cp -a src/static/. $npm_package_config_build_dir/",
     "build:dev": "webpack",
-    "prebuild:prod": "npm stop; npm run clean; npm run check-node-version",
-    "build:prod": "NODE_ENV=production webpack -p",
+    "prebuild:production": "npm run clean; npm run copy-static",
+    "build:production": "NODE_ENV=production webpack -p",
     "deploy": "marketplace-kit deploy -e $npm_package_config_target",
-    "deploy:staging":
-      "npm run build:prod; npm run deploy --<%= PROJECT_NAME %>:target=staging",
-    "deploy:prod":
-      "npm run build:prod; npm run deploy --<%= PROJECT_NAME %>:target=prod"
+    "deploy:staging": "npm run build:production; npm run deploy --<%= projectName %>:target=staging",
+    "deploy:production": "npm run build:production; npm run deploy --<%= projectName %>:target=production"
   },
   "pre-commit": {
     "silent": true,
@@ -33,35 +28,33 @@
     "concurrent": true,
     "subTaskConcurrency": 3,
     "linters": {
-      "**/*.scss": ["lint:fix", "git add"],
-      "{src,test}/**/*.js": ["lint:fix", "git add"],
-      "**/*.graphql": ["lint:fix", "git add"]
+      "src/**/*.js": ["lint:fix", "git add"],
+      "src/**/*.{scss,graphql,md}": ["lint:fix", "git add"]
     }
   },
   "browserslist": ["last 2 versions", "iOS > 7", "Safari > 6"],
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "autoprefixer": "^7.2.4",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
+    "autoprefixer": "^7.2.5",
+    "@babel/preset-env": "^7.0.0-beta.38",
+    "@babel/cli": "^7.0.0-beta.38",
+    "@babel/core": "^7.0.0-beta.38",
+    "babel-loader": "^8.0.0-beta.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.24.1",
-    "browserstack-local": "^1.3.0",
     "cache-loader": "^1.2.0",
-    "check-node-version": "^3.1.1",
-    "css-loader": "^0.28.8",
-    "dotenv": "^4.0.0",
+    "check-node-version": "^3.2.0",
+    "css-loader": "^0.28.9",
     "dynamic-public-path-webpack-plugin": "^1.0.3",
     "exports-loader": "^0.6.4",
     "expose-loader": "^0.7.4",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
     "glob-all": "^3.1.0",
-    "lint-staged": "^6.0.0",
+    "lint-staged": "^6.1.0",
     "node-sass": "4.7.2",
+    "npm-check-updates": "^2.14.0",
     "postcss": "^6.0.16",
     "postcss-calc": "^6.0.1",
     "postcss-devtools": "^1.1.1",
@@ -74,11 +67,11 @@
     "sass-loader": "^6.0.6",
     "script-loader": "^0.7.2",
     "style-loader": "^0.19.1",
-    "uglifyjs-webpack-plugin": "^1.1.6",
     "webpack": "^3.10.0",
     "webpack-require-from": "^1.0.1"
   },
   "dependencies": {
-    "rails-ujs": "^5.1.4"
+    "rails-ujs": "^5.1.4",
+    "vanilla-lazyload": "^10.4.2"
   }
 }

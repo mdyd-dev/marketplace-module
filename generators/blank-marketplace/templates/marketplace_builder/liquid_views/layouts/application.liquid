@@ -1,0 +1,29 @@
+{%- include 'shared/constants' -%}
+<!doctype html>
+<html lang="en">
+<head>
+  {%- include 'layouts/csrf' -%}
+  {%- include 'layouts/prefetch' -%}
+  {%- include 'layouts/meta-tags' -%}
+  {%- include 'layouts/favicon' -%}
+  {%- include 'layouts/stylesheets' -%}
+  {%- include 'layouts/preload' -%}
+  {%- include 'layouts/fonts' -%}
+  {%- include 'layouts/page-title' -%}
+  {%- include 'layouts/page-description' -%}
+
+  {%- yield 'head_content' -%}
+</head>
+
+<body class="{%- if is_logged_in -%}logged-in{%- endif -%}">
+  {%- include 'layouts/header' -%}
+
+  <main>
+    {{ content_for_layout }}
+  </main>
+
+  {%- include 'layouts/footer' -%}
+  {%- include 'layouts/javascript-variables' -%}
+  {%- include 'layouts/javascripts' -%}
+</body>
+</html>

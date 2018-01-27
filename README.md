@@ -53,8 +53,12 @@ prompting() {
       type: "checkbox",
       name: "fire",
       message: "Who do you hate in the office?",
-      choices: ["Dwight", "Jim", "Pam", "Toby"],
-      default: ["Toby"]
+      choices: [
+        { name: "Dwight" },
+        { name: "Jim" },
+        { name: "Pam" },
+        { name: "Toby", checked: true }
+      ]
     },
     {
       type: "list",
@@ -128,5 +132,9 @@ this.fs.copyTpl(this.templatePath("."), this.destinationRoot(), this.props);
 ### Resources
 
 * http://yeoman.io/authoring/index.html - yeoman official guide to authoring generators
+* http://yeoman.io/authoring/running-context.html - explained run loop (life cycle) of a generator
+* http://yeoman.io/generator/ - API reference
 * http://yeoman.io/generators/ - DB of generators - good inspiration source
+
 * https://github.com/SBoudrias/Inquirer.js/#documentation - Inquirer docs
+* https://github.com/sameeri/Code-Inquirer/wiki/Asking-questions-away-with-Inquirer! - A lot of good examples for Inquirer questions

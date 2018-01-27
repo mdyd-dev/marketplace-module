@@ -1,0 +1,42 @@
+{%- comment -%}
+  Basics
+{%- endcomment -%}
+{%- assign project_name_short = '<% projectName %>' -%}
+{%- assign project_name_long = '<% projectName %> LLC' -%}
+
+{%- comment -%}
+  Masks and localization settings
+{%- endcomment -%}
+{%- assign mobile_number_format = 'e.g. 1 ### ### ####' -%}
+{%- assign mobile_number_hint = '' -%}
+{%- assign date_format_short = 'date.formats.short' | t -%}
+{%- assign date_format_short_label = 'date.formats.short_label' | t -%}
+{%- capture date_hint -%}Format: {{ date_format_short_label }}{%- endcapture -%}
+{%- assign image_format_hint = 'Please upload a JPG/PNG/GIF image file (at most 10 MB in size).' -%}
+
+
+{%- comment -%}
+  Error messages
+{%- endcomment -%}
+{%- assign form_error_intro = '<p>It looks like there is a problem. Please correct your entry or provide the requested information:</p>' -%}
+
+{%- comment -%}
+  Marketplace Info
+{%- endcomment -%}
+
+{%- assign support_email = 'support@example.com' -%}
+{%- assign noreply_email = 'noreply@example.com' -%}
+{%- assign support_phone_number = '(860) 1337-hax' -%}
+{%- assign support_phone_number_raw = '8601337hax' -%}
+
+
+{%- comment -%}
+  Google services settings
+{%- endcomment -%}
+{%- assign GOOGLE_MAPS_API_KEY = '' -%}
+
+
+{%- comment -%}
+  Misc.
+{%- endcomment -%}
+{%- assign current_user_id = current_user.id -%}
