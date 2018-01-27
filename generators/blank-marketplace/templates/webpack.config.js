@@ -62,6 +62,10 @@ module.exports = env => {
       assetsSort: '!size',
       version: false
     },
+    performance: {
+      hints: 'warning'
+    },
+
     module: {
       rules: [
         {

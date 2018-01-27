@@ -1,8 +1,14 @@
 import './app.scss';
 
 import Rails from 'expose-loader?Rails!rails-ujs'; //  vanilla version
+import LazyLoad from 'vanilla-lazyload'; // Load images when they approach viewport
 
 Rails.start();
+
+new LazyLoad({
+  elements_selector: 'img, [data-lazy-load]',
+  threshold: 250
+});
 
 if (document.body.innerHTML.indexOf('Liquid Error') > -1) {
   console.error('--- Liquid Error Found ---');

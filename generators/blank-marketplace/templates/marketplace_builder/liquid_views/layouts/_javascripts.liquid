@@ -1,4 +1,8 @@
 
-{% comment %} <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,fetch,Element.prototype.closest,IntersectionObserver"></script> {% endcomment %}
+{%- comment -%}
+  Read https://polyfill.io/ for guide on how add other polyfills.
+{%- endcomment -%}
+
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,fetch,Element.prototype.closest,IntersectionObserver"></script>
 <script src="{{ asset_url['vendor.js'] }}"></script>
 <script src="{{ asset_url['app.js'] }}"></script>

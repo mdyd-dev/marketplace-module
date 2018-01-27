@@ -1,11 +1,12 @@
 {
   "name": "<%= projectName %>",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "<%= projectName %> Marketplace Frontend",
   "config": {
     "build_dir": "marketplace_builder/custom_themes/default_custom_theme_assets"
   },
   "scripts": {
+    "postinstall": "npm run build:dev",
     "lint": "lint-staged",
     "lint:fix": "prettier-eslint --write --eslint-config-path .eslintrc.json",
     "start": "npm run build:dev -- -w",
@@ -70,6 +71,7 @@
     "webpack-require-from": "^1.0.1"
   },
   "dependencies": {
-    "rails-ujs": "^5.1.4"
+    "rails-ujs": "^5.1.4",
+    "vanilla-lazyload": "^10.4.2"
   }
 }
