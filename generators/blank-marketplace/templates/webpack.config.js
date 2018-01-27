@@ -32,8 +32,13 @@ module.exports = env => {
       async: true,
       children: true
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
+      minChunks: Infinity
+    }),
     extractCSS,
     new webpack.optimize.ModuleConcatenationPlugin(),
+    isProduction ? new webpack.HashedModuleIdsPlugin() : new webpack.NamedModulesPlugin(),
     new WebpackRequireFrom({
       methodName: '__cdnUrl'
     })
@@ -67,6 +72,7 @@ module.exports = env => {
     },
 
     module: {
+      noParse: /node_modules\/.*.min.js/,
       rules: [
         {
           test: /\.js$/,
