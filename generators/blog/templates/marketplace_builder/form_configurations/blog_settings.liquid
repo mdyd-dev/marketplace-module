@@ -1,0 +1,66 @@
+---
+name: blog_settings
+async_callback_actions:
+  delay:
+  content:
+base_form: CustomizationForm
+configuration:
+  properties:
+    title:
+      validation:
+        presence: true
+    slug:
+      validation:
+        presence: true
+    enabled:
+      validation:
+        presence: false
+    tags_filter:
+      validation:
+        presence: false
+  custom_images:
+    header_image:
+      image:
+        validation: {
+          file_content_type: { allow: ['image/jpeg', 'image/png', 'image/gif'] }
+        }
+default_payload: |-
+  {
+    "properties_attributes": {
+      "slug": "{{ params.properties_attributes.title | default: '' | slugify }}"
+    }
+  }
+---
+
+{%- if form.model.id -%}
+  {% assign url = '/api/user/customizations/' | append: form.model.id %}
+  {% assign method = 'PUT' %}
+{%- else -%}
+  {% assign url = '/api/user/customizations' %}
+  {% assign method = 'POST' %}
+{%- endif -%}
+
+{% form_for form, url: @url, multipart: true, as: customization, method: @method, html-novalidate: false, html-class: 'container', html-data-expert-signup-form:true  %}
+  <input value="{{ form_configuration.id }}" type="hidden" name="form_configuration_id" />
+  <input value="{{ page.id }}" type="hidden" name="page_id" />
+  <input value="{{ form.custom_model_type_id }}" type="hidden" name="custom_model_type_id" />
+  <input value="/<%= blog_scope %>/admin" data-action='Sign Up' type="hidden" name="return_to" />
+
+  {% fields_for properties %}
+    <br />title
+    {% input_field 'title', form: 'properties', as: 'string' %}
+    <br />enabled
+    {% input_field 'enabled', form: 'properties', as: 'boolean' %}
+    <br />tags to display on filter
+    {% input_field 'tags_filter', form: 'properties', as: 'string' %}
+  {% endfields_for %}
+
+  <br />
+  {% fields_for custom_images %}
+    {% fields_for header_image, form: custom_images %}
+      {% input image, as: image, form: header_image, hint: 'Please upload header image' %}
+    {% endfields_for %}
+  {% endfields_for %}
+
+  <div class="row"> {% submit 'Submit', class: 'btn btn-primary btn-lg', data-disable-with: 'Saving...' %}</div>
+{% endform_for %}

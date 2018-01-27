@@ -33,6 +33,8 @@ module.exports = class extends Generator {
 
   writing() {
     this.fs.copyTpl(this.templatePath('.'), this.destinationPath(path.join(process.cwd())), this.props);
+    this.fs.move(`${targetPath}/liquid_views/layouts/blog.liquid`,
+      `${targetPath}/liquid_views/layouts/${this.props.layout_name}.liquid`)
   }
 
   install() {

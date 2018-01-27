@@ -1,0 +1,37 @@
+query get_blog_instance( $current_user_id: ID, $slug: String, $enabled: String )
+{
+	customizations (
+		is_deleted: false
+		per_page: 1
+		page: 1
+    user_id: $current_user_id
+		name: "blog_instance"
+		properties: [
+			{
+				name: "enabled"
+				value: $enabled
+			}
+			{
+				name: "slug"
+				value: $slug
+			}
+		]
+	)
+  {
+		results {
+      id
+			user {
+				id
+			}
+      title: property(name: "title")
+			slug: property(name: "slug")
+      enabled: property(name: "enabled")
+      tags_filter: property_array(name: "tags_filter")
+      header_image: custom_image(name: "header_image") {
+        normal: url(version: "normal")
+        thumb: url(version: "thumb")
+        transformed: url(version: "transformed")
+      }
+		}
+	}
+}
