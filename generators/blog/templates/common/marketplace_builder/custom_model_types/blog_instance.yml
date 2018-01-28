@@ -1,0 +1,51 @@
+---
+name: Blog Instance
+custom_attributes:
+- name: title
+  attribute_type: string
+  public: true
+- name: scope
+  attribute_type: string
+  public: true
+- name: slug
+  attribute_type: string
+  public: true
+- name: facebook_app_id
+  attribute_type: string
+  public: true
+- name: enabled
+  attribute_type: boolean
+  public: true
+- name: tags_filter
+  attribute_type: array
+  public: true
+- name: header_logo
+  label: Header Logo
+  attribute_type: photo
+  html_tag: input
+  input_html_options: {}
+  public: true
+  search_in_query: false
+  searchable: false
+- name: header_icon
+  label: Header Icon
+  attribute_type: photo
+  html_tag: input
+  input_html_options: {}
+  public: true
+  search_in_query: false
+  searchable: false
+- name: header_image
+  label: Header Image
+  attribute_type: photo
+  html_tag: input
+  input_html_options: {}
+  public: true
+  search_in_query: false
+  searchable: false
+  versions_configuration:
+    normal:
+      width: 720
+      height: 300
+      transform: :resize_to_fit
+---

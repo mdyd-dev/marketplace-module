@@ -13,10 +13,10 @@ module.exports = class extends Generator {
         default: "new-blog"
       },
       {
-        type: "confirm",
-        name: "generate_layout",
-        message: "Do you want to create layout template?",
-        default: false
+        type: "list",
+        name: "blog_type",
+        message: "Your blog type is:",
+        choices: [ "User Blog", "Instance Blog" ]
       },
       {
         type: "input",
@@ -32,11 +32,17 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.fs.copyTpl(this.templatePath("."), this.destinationPath(path.join(process.cwd())), this.props);
+    this.fs.copyTpl(this.templatePath(".") + '/common', this.destinationPath(path.join(process.cwd())), this.props);
     this.fs.move(targetPath + '/liquid_views/layouts/blog.liquid',
       targetPath + '/liquid_views/layouts/' + this.props.layout_name + '.liquid')
     this.fs.move(targetPath + '/pages/blog/**',
       targetPath + '/pages/' + this.props.blog_scope)
+
+    if (this.props.blog_type == 'User Blog') {
+      this.fs.copyTpl(this.templatePath(".") + '/user_blog', this.destinationPath(path.join(process.cwd())), this.props);
+    } else {
+      this.fs.copyTpl(this.templatePath(".") + '/instance_blog', this.destinationPath(path.join(process.cwd())), this.props);
+    }
   }
 
   install() {
