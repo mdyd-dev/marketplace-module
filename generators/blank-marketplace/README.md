@@ -1,6 +1,6 @@
 # blank-marketplace
 
-This module is supposed to give you a quick(er) start into marketpace development by giving you some things already setup.
+This module is supposed to give you a quick(er) start into marketpace development by giving you some problematic things already setup.
 
 ## webpack build process
 
@@ -24,9 +24,9 @@ Long term caching is realized in two ways:
 
 ## Images lazy loading
 
-To improve performance (especially on homepage, with a lot of images, mostly below the fold) there is [`vanilla-lazyload`](https://github.com/verlok/lazyload) included out of the box.
+To improve performance on image heavy pages (ie. homepage, search results, listing with a lot of images) there is [`vanilla-lazyload`](https://github.com/verlok/lazyload) included out of the box.
 
-It is included, configured and initialized in `app.js` - feel free to customize it to your needs.
+It is included, configured and initialized in the `app.js` - defaults are sensible, but feel free to customize it to your needs.
 
 ## npm scripts
 
