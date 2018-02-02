@@ -18,8 +18,8 @@ For implementation details look into `webpack.config.js`.
 
 Long term caching is realized in two ways:
 1) using `asset_url` filter for entry points (ie. app.js, vendor.js) by adding query param with timestamp from last update on s3 bucket ([read more](http://documentation.near-me.com/reference/liquid-filters-static/))
-2) by adding hashes to filenames that are not loaded using asset_url filter - code lazy loaded by webpack
-3) manifest file is extracted to its own file (manifest.js) - changing chunks should not invalidate it ([read more](https://survivejs.com/webpack/optimizing/separating-manifest/))
+2) by adding hashes to filenames that are not loaded using `asset_url` liquid filter - code lazy loaded by webpack
+3) manifest file is extracted to its own file (`manifest.js`) - changing chunks should not invalidate it ([read more](https://survivejs.com/webpack/optimizing/separating-manifest/))
 4) `HashedModuleIdsPlugin` is used to prevent changing modules ID between compilations for production (similarly NamedModulesPlugin for development) ([read more](https://webpack.js.org/plugins/hashed-module-ids-plugin/))
 
 ## Images lazy loading
@@ -27,6 +27,10 @@ Long term caching is realized in two ways:
 To improve performance on image heavy pages (ie. homepage, search results, listing with a lot of images) there is [`vanilla-lazyload`](https://github.com/verlok/lazyload) included out of the box.
 
 It is included, configured and initialized in the `app.js` - defaults are sensible, but feel free to customize it to your needs.
+
+## PostCSS
+
+[PostCSS](https://github.com/postcss/postcss) is included to give you the peace of mind when it comes to covering cross browser incompabilities and missing parts. See `postcss.config.js` file to see exactly which plugins are loaded in this module by default and customize it if you want. [Read more](https://github.com/jjaderg/awesome-postcss).
 
 ## npm scripts
 
@@ -36,7 +40,7 @@ Use `npm run` command to see what tasks you have at your disposal and what they 
 
 ## ES6
 
-Use ES6 features. You have babel on board :-)
+Use ES6 features. You have [Babel](https://github.com/babel/babel) on board :-)
 
 ## Code linting
 
@@ -44,7 +48,7 @@ There is a git-precommit hook setup that will run your source code through [`pre
 
 ## Views
 
-There are couple views (layout, layout includes, homepage) in this module to show you how you can structure your initial code, but most of the features you probably will want to install using other modules inside marketplace-module tool.
+There are couple views (layout, layout includes, homepage) in this module to show you how you can structure your initial code, but most of the features you probably will want to install using other modules inside `marketplace-module` tool.
 
 ## Feature requests
 
@@ -57,15 +61,21 @@ Make this starting point a PWA by default. This means some/all of below improvem
 
 - [ ] Eliminate FOIT (Flash Of Invisible Text) for WebFonts
 - [ ] Implement inlining small images/fonts into css to save http requests
-- [ ] Add workbox-webpack-plugin for service worker
+- [ ] Add [workbox-webpack-plugin](https://www.npmjs.com/package/workbox-webpack-plugin) for service worker
 - [ ] Site use cache first networking
 - [ ] Create Web App Manifest (using webpack-pwa-manifest maybe?)
-- [ ] Score at least a 90 on lighthouse
+- [ ] Score at least a 90 on [lighthouse](https://developers.google.com/web/tools/lighthouse/)
 - [ ] Upgrade to use latest webpack (currently webpack 4 beta is in development with huge performance and features improvements)
+
+### General
+- [ ] Investigate postcss-mqpacker issue
+- [ ] Revise postcss plugins and add missing important ones
+- [ ] Add webpack bundle analyzer in dev mode
+- [ ] Add optimize-js plugin for webpack if it is compatible
 
 ### Chores
 - [ ] Implement `xo` as a part of build process
-- [ ] Provide basic e2e tests using (as a separate marketplace-module)
+- [ ] Provide basic e2e tests (as a separate `marketplace-module`)
 
 ### Marketplace
 
