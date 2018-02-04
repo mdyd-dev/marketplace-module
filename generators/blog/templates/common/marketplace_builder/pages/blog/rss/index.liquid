@@ -1,0 +1,35 @@
+---
+slug: '<%= blog_scope %>/rss'
+format: rss
+layout_name: '<%= layout_name %>'
+---
+
+{%- capture url_template -%}
+{% if params.language %}/{lang}{%- endif -%}/<%= blog_scope %>/rss/{slug}.rss
+{%- endcapture -%}
+{% assign url_params = current_full_path | extract_url_params: url_template %}
+
+{%- query_graph 'get_blog_instance', scope: '<%= blog_scope %>', result_name: bi, slug: url_params.slug, enabled: 'true' -%}
+{% assign blog_instance = bi.customizations.results.first %}
+{% if url_params.slug != blank and blog_instance %}
+  {%- assign today = 'now' | date: '%F' -%}
+  {%- query_graph 'get_blog_posts', result_name: g, published_at_lte: today, blog_instance_id: blog_instance.id, tags: params.tags -%}
+  <?xml version="1.0" encoding="UTF-8"?>
+  <rss version="2.0">
+    <channel>
+      <title>{{ blog_instance.title }}</title>
+      <link>https://desksnear.me/blog</link>
+      {%- for blog_post in g.customizations.results -%}
+        <item>
+          <title>{{ blog_post.title }}</title>
+          <description>{{ blog_post.content }}</description>
+          <pubDate>{{ blog_post.published_at  | localize: 'long' }}</pubDate>
+          <link>https://desksnear.me/<%= blog_scope %>/post/{{ blog_post.slug }}</link>
+          <guid>https://desksnear.me/<%= blog_scope %>/post/{{ blog_post.slug }}</guid>
+        </item>
+      {%- endfor -%}
+    </channel>
+  </rss>
+{% else %}
+  Blog is not enabled
+{% endif %}

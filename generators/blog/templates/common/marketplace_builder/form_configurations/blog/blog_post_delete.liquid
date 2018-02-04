@@ -1,0 +1,11 @@
+---
+name: blog_post_delete
+base_form: CustomizationForm
+configuration:
+---
+{% assign url = '/api/user/customizations/' | append: form.model.id %}
+{% form_for form, url: @url, as: customization, method: 'delete' %}
+  <input type="hidden" name="_method" value="delete">
+  <input value="{{ current_path }}" data-action='Sign Up' type="hidden" name="return_to" />
+  <input type="submit" value="Delete" data-confirmation: 'Are you sure?'>
+{% endform_for %}
